@@ -11,7 +11,7 @@ To build a predictive model to estimate how many cycles it would take for a batt
 
 ## Data
 The data was obtained from the following source: 
-[link](https://data.matr.io/1/projects/5c48dd2bc625d700019f3204).  The experiment was summarized in [Severson et al.](https://www.nature.com/articles/s41560-019-0356-8) and in [Attila et al.](https://www.nature.com/articles/s41586-020-1994-5).   We initially used the following features for each cycle from 2 to 102:
+[link](https://data.matr.io/1/projects/5c48dd2bc625d700019f3204).  The experiment was summarized in [Severson et al.](https://www.nature.com/articles/s41560-019-0356-8) and in [Attila et al.](https://www.nature.com/articles/s41586-020-1994-5)  We initially used the following features for each cycle from 2 to 102:
 
 1. Charge Capacity (in mAh).
 2. Mean Temperature (T).
@@ -44,26 +44,26 @@ The dataset originates from Severson et al., "Data-driven prediction of battery 
 
 Typical charging/discharging protocols are shown below. Some protocols exhibit a periodicity of 60 minutes, while others are closer to 50 minutes.
 
-![Figure 2: Example charging/discharging protocols](./figures/four_ex_charge_protocol.png)
+![Figure 2: Example charging/discharging protocols](./images/four_ex_charge_protocol.png)
 
 Each battery underwent approximately 90–1500 cycles of testing, with experiments often terminating soon after SOH dropped below 90%. Measurement intervals varied, as shown in the histogram below.
 
-![Figure 3: Histogram of time intervals between measurements](./figures/time_intervals.png)
+![Figure 3: Histogram of time intervals between measurements](./images/time_intervals.png)
 
 ### Internal Resistance
 Longer-lifetime batteries exhibit lower internal resistance. Below is the internal resistance evolution over the testing period.
 
-![Figure 4: Internal resistance evolution](./figures/internal_resistance.png)
+![Figure 4: Internal resistance evolution](./images/internal_resistance.png)
 
 ### Temperature
 Temperature variations were small, though minor fluctuations occurred during the first 100 cycles.
 
-![Figure 5: Temperature evolution](./figures/temperature.png)
+![Figure 5: Temperature evolution](./images/temperature.png)
 
 ### Cycle Time
 There were two main cycle durations (~48 and ~55 minutes). Batteries with shorter cycles tended to have longer lifetimes.
 
-![Figure 6: Cycle time analysis](./figures/cycle_time.png)
+![Figure 6: Cycle time analysis](./images/cycle_time.png)
 
 ### Charge Capacity
 Batteries with longer lifetimes exhibited a smaller initial surge in charge capacity during the first 100 cycles.
@@ -75,9 +75,9 @@ The most important features derived from this were:
 1. Frequency of the first harmonic (fundamental).
 2. Peak areas of the first 10 harmonics.
 
-![Figure 1a: PSD of the charge current waveform](./figures/PSD_CC.png)
+![Figure 1a: PSD of the charge current waveform](./images/PSD_CC.png)
 
-![Figure 1b: PSD of the charge voltage waveform](./figures/PSD_CV.png)
+![Figure 1b: PSD of the charge voltage waveform](./images/PSD_CV.png)
 
 ## Modeling
 We implemented the RFM model using the scikit-learn library and the GBM model using XGBoost. In general:
@@ -91,9 +91,9 @@ Shapley values assess the contribution of each feature to the model’s predicti
 
 The top 20 most predictive features are shown below.
 
-![Figure 8: Shapley values for the top 20 features](./figures/shapley_analysis/shapley_top20.png)
+![Figure 8: Shapley values for the top 20 features](./images/shapley/shapley_Top20.png)
 
-Other SHAP plots can be found in this [folder](./figures/shapley_analysis/).
+Other SHAP plots can be found in this [folder](./images/shapley/).
 
 ## Summary and Conclusions
 1. Our *best model* has a MdAPE of **8.02%** and a coefficient of determination (R²) of **0.653**.
@@ -101,5 +101,3 @@ Other SHAP plots can be found in this [folder](./figures/shapley_analysis/).
 3. **The RFM model outperformed GBM in this dataset.** This was especially evident at extreme values of the predicted variable.
 4. **We prioritized MdAPE over RMSE due to the limited dataset size.** The best-performing model was RFM with PSD features.
 
-# battery_lifetime
-# battery_lifetime
