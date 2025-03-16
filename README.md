@@ -7,6 +7,17 @@ To build a predictive model to estimate how many cycles it would take for a batt
 1. We built a predictive Random Forest Model (RFM) to estimate the number of cycles required for a battery’s SOH to drop to 90%, based on the first 100 cycles of data.
 2. Our model has a median absolute percentage error (MdAPE) of 8.02% and a coefficient of determination (R²) of 0.653.
 
+#### Model Performance Summary
+| Model | Description | Holdout R² | Holdout MdAPE | Holdout RMSE |
+| --- | --- | --- | --- | --- |
+| GBM | 4 sets of cyclic features (No PSD features) | 0.478 | 16.6% | 234.1 |
+| GBM | 4 sets of cyclic features + PSD features | 0.752 | 12.42% | 161.5 |
+| RFM | 4 sets of cyclic features (No PSD features) | 0.598 | 8.86% | 205.5 |
+| RFM | 4 sets of cyclic features + PSD features | 0.653 | <u>**8.02%**</u> | 190.9 |
+
+Table 1: Summary of performances of the four models.  
+
+
 # Introduction
 
 ## Data
@@ -23,13 +34,6 @@ Each battery received a different charging protocol (waveform). We featurized th
 ## Models
 Due to the small size of our dataset (132 batteries total), using deep learning or neural network models was not practical. Instead, we focused on two decision-tree-based models: **Random Forest Model (RFM)** and **Gradient Boosting Model (GBM)**. Although GBM is generally considered superior, RFM yielded better results in our case.
 
-### Model Performance Summary
-| Model | Description | Holdout R² | Holdout MdAPE | Holdout RMSE |
-| --- | --- | --- | --- | --- |
-| GBM | 4 sets of cyclic features (No PSD features) | 0.478 | 16.6% | 234.1 |
-| GBM | 4 sets of cyclic features + PSD features | 0.752 | 12.42% | 161.5 |
-| RFM | 4 sets of cyclic features (No PSD features) | 0.598 | 8.86% | 205.5 |
-| RFM | 4 sets of cyclic features + PSD features | 0.653 | 8.02% | 190.9 |
 
 ## Shapley Analysis
 Shapley analysis revealed that the most impactful features were the PSD areas of the higher harmonics, confirming the hypothesis that the charging protocol significantly influences battery SOH.
@@ -85,6 +89,9 @@ We implemented the RFM model using the scikit-learn library and the GBM model us
 - **RFM** builds deep trees that can overfit, but decorrelating multiple trees helps mitigate this.
 - **GBM** builds shallow trees sequentially, reducing residual errors but increasing computational time.
 - Despite GBM's reputation for superior performance, RFM performed better in our case due to the small dataset.
+
+### Metrics
+We listed three metrics in Table 1 for each model.  We believe 
 
 ## Shapley Values: Feature Importance
 Shapley values assess the contribution of each feature to the model’s predictions. They provide local, consistent explanations of model behavior. We computed Shapley values using the Python SHAP library.
