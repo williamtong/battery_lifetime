@@ -1,7 +1,12 @@
 # Battery Lifetime Predictions from Initial Cycling Data
 
+<figure>
+    <img src='./images/battery-charged-and-uncharged.png' width="500">
+    <figcaption>Figure 1: Courtesy: Issac's science biog</figcaption>
+</figure>
+
 ## Goal
-To build a predictive model to use the initial 100 cycles to estimate how many cycles it would take for a battery’s state of health [(SOH)](https://en.wikipedia.org/wiki/State_of_health) to drop to 90%.
+To build a predictive model to use the initial 100 cycles to estimate how many cycles it would take for a battery’s state of health [SOH](https://en.wikipedia.org/wiki/State_of_health) to drop to 90%.
 
 ## Executive Summary
 1. We built a predictive Random Forest Model (RFM) to estimate the number of cycles required for a battery’s SOH to drop to 90%, based on the first 100 cycles of data.
@@ -48,41 +53,59 @@ The dataset originates from Severson et al., "Data-driven prediction of battery 
 
 Typical charging/discharging protocols are shown below. Some protocols exhibit a periodicity of 60 minutes, while others are closer to 50 minutes.
 
-![Figure 2: Example charging/discharging protocols](./images/four_ex_charge_protocol.png)
+<figure>
+    <img src='./images/four_ex_charge_protocol.png' width="800">
+    <figcaption>Figure 2: Example charging/discharging protocols</figcaption>
+</figure>
 
 Each battery underwent approximately 90–1500 cycles of testing, with experiments often terminating soon after SOH dropped below 90%. Measurement intervals varied, as shown in the histogram below.
 
-![Figure 3: Histogram of time intervals between measurements](./images/time_intervals.png)
-
+<figure>
+    <img src='./images/time_intervals.png' width="1000">
+    <figcaption>Figure 3: Histogram of time intervals between measurements</figcaption>
+</figure>
 ### Internal Resistance
 Longer-lifetime batteries exhibit lower internal resistance. Below is the internal resistance evolution over the testing period.
 
-![Figure 4: Internal resistance evolution](./images/internal_resistance.png)
+<figure>
+    <img src='./images/internal_resistance.png' width="1000">
+    <figcaption>Figure 4: Internal resistance evolution</figcaption>
+</figure>
 
 ### Temperature
 Temperature variations were small, though minor fluctuations occurred during the first 100 cycles.
 
-![Figure 5: Temperature evolution](./images/temperature.png)
+<figure>
+    <img src='./images/temperature.png' width="1000">
+    <figcaption>Figure 5: Temperature evolution</figcaption>
+</figure>
 
 ### Cycle Time
 There were two main cycle durations (~48 and ~55 minutes). Batteries with shorter cycles tended to have longer lifetimes.
 
-![Figure 6: Cycle time analysis](./images/cycle_time.png)
+<figure>
+    <img src='./images/cycle_time.png' width="1000">
+    <figcaption>Figure 6: Cycle time analysis</figcaption>
+</figure>
 
 ### Charge Capacity
 Batteries with longer lifetimes exhibited a smaller initial surge in charge capacity during the first 100 cycles.
 
-![Figure 7: Charge capacity evolution](./images/charge_capacity.png)
+<figure>
+    <img src='./images/charge_capacity.png' width="1000">
+    <figcaption>Figure 7: Charge capacity evolution</figcaption>
+</figure>
 
 ### Power Spectral Density (PSD) of the charge/discharge current and voltage
 The most important features derived from this were:
 1. Frequency of the first harmonic (fundamental).
 2. Peak areas of the first 10 harmonics.
 
-![Figure 1a: PSD of the charge current waveform](./images/PSD_CC.png)
-
-![Figure 1b: PSD of the charge voltage waveform](./images/PSD_CV.png)
-
+<figure>
+    <img src='./images/PSD_CC.png' width="1000">
+    <img src='./images/PSD_CV.png' width="1000">
+    <figcaption>Figure 8: PSD of the current (top) and voltage (bottom) waveform</figcaption>
+</figure>
 ### Metrics
 We listed three metrics in Table 1 for each model.  We believe MdAPE is the most appropriate metric because it targets a criterion that is more realistic to one in our likely use case, which is tha actually lifetime of the battery (R² does not).  It is also less sensitive to outliers than RMSE.
 
@@ -97,7 +120,7 @@ We implemented the RFM model using the scikit-learn library and the GBM model us
 <figure>
     <img src='./images/GBM_holdout_scatterplot.png' width="300">
     <img src='./images/RFM_holdout_scatterplot.png' width="300">
-    <figcaption>Figure 8: Scatter plot of the predicted vs holdout data of the GBM (L) and RFM (R) model</figcaption>
+    <figcaption>Figure 9: Scatter plot of the predicted vs holdout data of the GBM (L) and RFM (R) model</figcaption>
 </figure>
 
 
@@ -109,7 +132,7 @@ The top 20 most predictive features are shown below.
 
 <figure>
     <img src='./images/shapley/shapley_Top20.png' width="500">
-    <figcaption>Figure 9: Shapley values for the top 20 features</figcaption>
+    <figcaption>Figure 10: Shapley values for the top 20 features</figcaption>
 </figure>
 
 Other SHAP plots can be found in this [folder](./images/shapley/).
