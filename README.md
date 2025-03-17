@@ -95,8 +95,8 @@ We implemented the RFM model using the scikit-learn library and the GBM model us
 
 
 <figure>
-    <img src='./images/GBM_holdout_scatterplot.png' width="400">
-    <img src='./images/RFM_holdout_scatterplot.png' width="400">
+    <img src='./images/GBM_holdout_scatterplot.png' width="300">
+    <img src='./images/RFM_holdout_scatterplot.png' width="300">
     <figcaption>Figure 8: Scatter plot of the predicted vs holdout data of the GBM (L) and RFM (R) model</figcaption>
 </figure>
 
@@ -107,7 +107,10 @@ Shapley values assess the contribution of each feature to the model’s predicti
 
 The top 20 most predictive features are shown below.
 
-![Figure 9: Shapley values for the top 20 features](./images/shapley/shapley_Top20.png)
+<figure>
+    <img src='./images/shapley/shapley_Top20.png' width="500">
+    <figcaption>Figure 9: Shapley values for the top 20 features</figcaption>
+</figure>
 
 Other SHAP plots can be found in this [folder](./images/shapley/).
 
