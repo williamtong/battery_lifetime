@@ -58,19 +58,23 @@ Typical charging/discharging protocols are shown below. Some protocols exhibit a
     <figcaption>Figure 2: Example charging/discharging protocols</figcaption>
 </figure>
 
+
 Each battery underwent approximately 90–1500 cycles of testing, with experiments often terminating soon after SOH dropped below 90%. Measurement intervals varied, as shown in the histogram below.
 
 <figure>
     <img src='./images/time_intervals.png' width="1000">
     <figcaption>Figure 3: Histogram of time intervals between measurements</figcaption>
 </figure>
+
 ### Internal Resistance
 Longer-lifetime batteries exhibit lower internal resistance. Below is the internal resistance evolution over the testing period.
+
 
 <figure>
     <img src='./images/internal_resistance.png' width="1000">
     <figcaption>Figure 4: Internal resistance evolution</figcaption>
 </figure>
+
 
 ### Temperature
 Temperature variations were small, though minor fluctuations occurred during the first 100 cycles.
@@ -80,6 +84,7 @@ Temperature variations were small, though minor fluctuations occurred during the
     <figcaption>Figure 5: Temperature evolution</figcaption>
 </figure>
 
+
 ### Cycle Time
 There were two main cycle durations (~48 and ~55 minutes). Batteries with shorter cycles tended to have longer lifetimes.
 
@@ -88,6 +93,7 @@ There were two main cycle durations (~48 and ~55 minutes). Batteries with shorte
     <figcaption>Figure 6: Cycle time analysis</figcaption>
 </figure>
 
+
 ### Charge Capacity
 Batteries with longer lifetimes exhibited a smaller initial surge in charge capacity during the first 100 cycles.
 
@@ -95,6 +101,7 @@ Batteries with longer lifetimes exhibited a smaller initial surge in charge capa
     <img src='./images/charge_capacity.png' width="1000">
     <figcaption>Figure 7: Charge capacity evolution</figcaption>
 </figure>
+
 
 ### Power Spectral Density (PSD) of the charge/discharge current and voltage
 The most important features derived from this were:
@@ -106,8 +113,11 @@ The most important features derived from this were:
     <img src='./images/PSD_CV.png' width="1000">
     <figcaption>Figure 8: PSD of the current (top) and voltage (bottom) waveform</figcaption>
 </figure>
+
+
 ### Metrics
 We listed three metrics in Table 1 for each model.  We believe MdAPE is the most appropriate metric because it targets a criterion that is more realistic to one in our likely use case, which is tha actually lifetime of the battery (R² does not).  It is also less sensitive to outliers than RMSE.
+
 
 ## Modeling
 We implemented the RFM model using the scikit-learn library and the GBM model using XGBoost. In general:
@@ -116,13 +126,11 @@ We implemented the RFM model using the scikit-learn library and the GBM model us
 - The Gradient Boosting Model builds shallow trees sequentially, reducing residual errors but increasing computational time.
 - Despite GBM's reputation for superior performance, **RFM** performed better in our case due to the small dataset.
 
-
 <figure>
-    <img src='./images/GBM_holdout_scatterplot.png' width="300">
-    <img src='./images/RFM_holdout_scatterplot.png' width="300">
-    <figcaption>Figure 9: Scatter plot of the predicted vs holdout data of the GBM (L) and RFM (R) model</figcaption>
+    <img src='./images/GBM_holdout_scatterplot.png' width="500">
+    <img src='./images/RFM_holdout_scatterplot.png' width="500">
+    <figcaption>Figure 9: Scatter plot of the predicted vs holdout data of the GBM (Top) and RFM (Bottom) model</figcaption>
 </figure>
-
 
 
 ## Shapley Values: Feature Importance
@@ -137,9 +145,9 @@ The top 20 most predictive features are shown below.
 
 Other SHAP plots can be found in this [folder](./images/shapley/).
 
+
 ## Summary and Conclusions
 1. Our *best model* has a MdAPE of **8.02%** and a coefficient of determination (R²) of **0.653**.
 2. **Including PSD features of the charge/discharge waveform significantly improved model performance.** This aligns with the hypothesis that charging protocols impact battery SOH.
 3. **The RFM model outperformed GBM in this dataset.** This was especially evident at extreme values of the predicted variable.
 4. **We prioritized MdAPE over RMSE due to the limited dataset size.** The best-performing model was RFM with PSD features.
-
