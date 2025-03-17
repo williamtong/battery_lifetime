@@ -83,22 +83,31 @@ The most important features derived from this were:
 
 ![Figure 1b: PSD of the charge voltage waveform](./images/PSD_CV.png)
 
+### Metrics
+We listed three metrics in Table 1 for each model.  We believe MdAPE is the most appropriate metric because it targets a criterion that is more realistic to one in our likely use case, which is tha actually lifetime of the battery (R² does not).  It is also less sensitive to outliers than RMSE.
+
 ## Modeling
 We implemented the RFM model using the scikit-learn library and the GBM model using XGBoost. In general:
 
-- **RFM** builds deep trees that can overfit, but decorrelating multiple trees helps mitigate this.
-- **GBM** builds shallow trees sequentially, reducing residual errors but increasing computational time.
-- Despite GBM's reputation for superior performance, RFM performed better in our case due to the small dataset.
+- The Random Forest Model builds deep trees that can overfit, but decorrelating multiple trees helps mitigate this.
+- The Gradient Boosting Model builds shallow trees sequentially, reducing residual errors but increasing computational time.
+- Despite GBM's reputation for superior performance, **RFM** performed better in our case due to the small dataset.
 
-### Metrics
-We listed three metrics in Table 1 for each model.  We believe 
+
+<figure>
+    <img src='./images/GBM_holdout_scatterplot.png' width="400">
+    <img src='./images/RFM_holdout_scatterplot.png' width="400">
+    <figcaption>Figure 8: Scatter plot of the predicted vs holdout data of the GBM (L) and RFM (R) model</figcaption>
+</figure>
+
+
 
 ## Shapley Values: Feature Importance
 Shapley values assess the contribution of each feature to the model’s predictions. They provide local, consistent explanations of model behavior. We computed Shapley values using the Python SHAP library.
 
 The top 20 most predictive features are shown below.
 
-![Figure 8: Shapley values for the top 20 features](./images/shapley/shapley_Top20.png)
+![Figure 9: Shapley values for the top 20 features](./images/shapley/shapley_Top20.png)
 
 Other SHAP plots can be found in this [folder](./images/shapley/).
 
