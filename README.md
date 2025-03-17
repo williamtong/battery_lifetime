@@ -59,7 +59,7 @@ Typical charging/discharging protocols are shown below. Some protocols exhibit a
 </figure>
 
 
-Each battery underwent approximately 90–1500 cycles of testing, with experiments often terminating soon after SOH dropped below 90%. Measurement intervals varied, as shown in the histogram below.
+Each battery underwent approximately 90–1500 cycles of testing, with experiments often terminating soon after SOH dropped below 90%. Measurement intervals varied, as shown in the histogram below.  Despite the large variations in the measurement time intervals, the PSDs still emerge to be the most pwoerful features in the model.  This is a testament to the importance of the charging protocol to the lifetime of the batteries.
 
 <figure>
     <img src='./images/time_intervals.png' width="1000">
@@ -148,6 +148,6 @@ Other SHAP plots can be found in this [folder](./images/shapley/).
 
 ## Summary and Conclusions
 1. Our *best model* has a MdAPE of **8.02%** and a coefficient of determination (R²) of **0.653**.
-2. **Including PSD features of the charge/discharge waveform significantly improved model performance.** This aligns with the hypothesis that charging protocols impact battery SOH.
+2. **Including PSD features of the charge/discharge waveform significantly improved model performance.** This aligns with the hypothesis that charging protocols impact battery SOH.  
 3. **The RFM model outperformed GBM in this dataset.** This was especially evident at extreme values of the predicted variable.
 4. **We prioritized MdAPE over RMSE due to the limited dataset size.** The best-performing model was RFM with PSD features.
