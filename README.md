@@ -1,7 +1,7 @@
 # Battery Lifetime Predictions from Initial Cycling Data
 
 ## Goal
-To build a predictive model to estimate how many cycles it would take for a battery’s state of health [(SOH)](https://en.wikipedia.org/wiki/State_of_health) to drop to 90%.
+To build a predictive model to use the initial 100 cycles to estimate how many cycles it would take for a battery’s state of health [(SOH)](https://en.wikipedia.org/wiki/State_of_health) to drop to 90%.
 
 ## Executive Summary
 1. We built a predictive Random Forest Model (RFM) to estimate the number of cycles required for a battery’s SOH to drop to 90%, based on the first 100 cycles of data.
@@ -11,7 +11,7 @@ To build a predictive model to estimate how many cycles it would take for a batt
 | Model | Description | Holdout R² | Holdout MdAPE | Holdout RMSE |
 | --- | --- | --- | --- | --- |
 | GBM | 4 sets of cyclic features (No PSD features) | 0.478 | 16.6% | 234.1 |
-| GBM | 4 sets of cyclic features + PSD features | 0.752 | 12.42% | 161.5 |
+| GBM | 4 sets of cyclic features + PSD features | 0.684 | 12.22% | 182.07 |
 | RFM | 4 sets of cyclic features (No PSD features) | 0.598 | 8.86% | 205.5 |
 | RFM | 4 sets of cyclic features + PSD features | 0.653 | <u>**8.02%**</u> | 190.9 |
 
@@ -29,7 +29,7 @@ The data was obtained from the following source:
 3. Maximum Internal Resistance.
 4. Cycle Duration (Time).
 
-Each battery received a different charging protocol (waveform). We featurized this by converting the charge/discharge current (CC) or voltage (CV) to their respective Power Spectral Density (PSD). 
+Per the authors, the batteries were sourced from the [A123Systems](./images/battery_spec_sheet.pdf). Each battery received a different charging protocol (waveform). We featurized this by converting the charge/discharge current (CC) or voltage (CV) to their respective Power Spectral Density (PSD). 
 
 ## Models
 Due to the small size of our dataset (132 batteries total), using deep learning or neural network models was not practical. Instead, we focused on two decision-tree-based models: **Random Forest Model (RFM)** and **Gradient Boosting Model (GBM)**. Although GBM is generally considered superior, RFM yielded better results in our case.
@@ -72,7 +72,7 @@ There were two main cycle durations (~48 and ~55 minutes). Batteries with shorte
 ### Charge Capacity
 Batteries with longer lifetimes exhibited a smaller initial surge in charge capacity during the first 100 cycles.
 
-![Figure 7: Charge capacity evolution](./figures/charge_capacity.png)
+![Figure 7: Charge capacity evolution](./images/charge_capacity.png)
 
 ### Power Spectral Density (PSD) of the charge/discharge current and voltage
 The most important features derived from this were:
