@@ -5,6 +5,11 @@
     <figcaption>Figure 1: Courtesy: Issac's science biog</figcaption>
 </figure>
 
+
+## Acknowledgments
+I want to thank Dr. Lawrence Pan for helping me understand the intracacies of battery chemistry, and acknowledge the authors of the two <i>Nature</i> papers (See <i>Data</i> section below) for performing the experiments and sharing their data with the world.
+
+
 ## Goal
 To build a predictive model to use the initial 100 cycles to estimate how many cycles it would take for a battery’s state of health [SOH](https://en.wikipedia.org/wiki/State_of_health) to drop to 90%.
 
@@ -16,7 +21,7 @@ To build a predictive model to use the initial 100 cycles to estimate how many c
 | Model | Description | Holdout R² | Holdout MdAPE | Holdout RMSE |
 | --- | --- | --- | --- | --- |
 | GBM | 4 sets of cyclic features (No PSD features) | 0.478 | 16.6% | 234.1 |
-| GBM | 4 sets of cyclic features + PSD features | 0.684 | 12.22% | 182.07 |
+| GBM | 4 sets of cyclic features + PSD features | 0.684 | 12.22% | 182.1 |
 | RFM | 4 sets of cyclic features (No PSD features) | 0.598 | 8.86% | 205.5 |
 | RFM | 4 sets of cyclic features + PSD features | 0.653 | <u>**8.02%**</u> | 190.9 |
 
