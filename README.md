@@ -21,7 +21,7 @@ To build a predictive model to use the initial 100 cycles to estimate how many c
 | Model | Description | Holdout R² | Holdout MdAPE | Holdout RMSE |
 | --- | --- | --- | --- | --- |
 | GBM | 4 sets of cyclic features (No PSD features) | 0.478 | 16.6% | 234.1 |
-| GBM | 4 sets of cyclic features + PSD features | 0.684 | 12.22% | 182.1 |
+| GBM | 4 sets of cyclic features + PSD features | 0.723 | 12.24% | 170.6 |
 | RFM | 4 sets of cyclic features (No PSD features) | 0.598 | 8.86% | 205.5 |
 | RFM | 4 sets of cyclic features + PSD features | 0.653 | <u>**8.02%**</u> | 190.9 |
 
@@ -42,8 +42,21 @@ The data was obtained from the following source:
 Per the authors, the batteries were sourced from the [A123Systems](./images/battery_spec_sheet.pdf). Each battery received a different charging protocol (waveform). We featurized this by converting the charge/discharge current (CC) or voltage (CV) to their respective Power Spectral Density (PSD). 
 
 ## Models
-Due to the small size of our dataset (132 batteries total), using deep learning or neural network models was not practical. Instead, we focused on two decision-tree-based models: **Random Forest Model (RFM)** and **Gradient Boosting Model (GBM)**. Although GBM is generally considered superior, RFM yielded better results in our case.
+Due to the small size of our dataset (132 batteries total), using deep learning or neural network models was not practical. Instead, we focused on two decision-tree-based models: **Random Forest Model (RFM)** and **Gradient Boosting Model (GBM)**. 
 
+There many metrics to evaluate the efficacy of a model.  The one we choose is MdAPE (Median Average Percent) because
+it is more robust to outliers.
+1.  It uses <i>median</i> instead of mean.
+2.  Unlike RMSE, it does not involve squaring of errors, which tend to exaggerate outlier errors.
+
+We see the RFM model performing better than the GBM model, which typically performs better.  This is likely because of the small size of the data set.  Below show the actuall vs. the predicted <i>Training</i> data set for the two model.  One can see a clear sign of <i>overfitting</i> in the GBM model, but not in the RFM model.
+<figure>
+    <img src='./images/GBM_Train.png' width="500">
+    <img src='./images/RFM_Train.png' width="500">
+    <figcaption>Figure 2: Scatter plots of the predicted vs holdout data of the GBM (Top) and RFM (Bottom) model.  The apparent perfect fit of the GBM model is a clear sign of overfitting.</figcaption>
+</figure>
+
+The tailing off of both curves at high value is also a sign of the small data set size, since there are not enough data points at the extremities to "pull" the predictions up from the average.
 
 ## Shapley Analysis
 Shapley analysis revealed that the most impactful features were the PSD areas of the higher harmonics, confirming the hypothesis that the charging protocol significantly influences battery SOH.
@@ -60,7 +73,7 @@ Typical charging/discharging protocols are shown below. Some protocols exhibit a
 
 <figure>
     <img src='./images/four_ex_charge_protocol.png' width="800">
-    <figcaption>Figure 2: Example charging/discharging protocols</figcaption>
+    <figcaption>Figure 3: Example charging/discharging protocols</figcaption>
 </figure>
 
 
@@ -68,7 +81,7 @@ Each battery underwent approximately 90–1500 cycles of testing, with experimen
 
 <figure>
     <img src='./images/time_intervals.png' width="1000">
-    <figcaption>Figure 3: Histogram of time intervals between measurements</figcaption>
+    <figcaption>Figure 4: Histogram of time intervals between measurements</figcaption>
 </figure>
 
 ### Internal Resistance
@@ -77,7 +90,7 @@ Longer-lifetime batteries exhibit lower internal resistance. Below is the intern
 
 <figure>
     <img src='./images/internal_resistance.png' width="1000">
-    <figcaption>Figure 4: Internal resistance evolution</figcaption>
+    <figcaption>Figure 5: Internal resistance evolution</figcaption>
 </figure>
 
 
@@ -86,7 +99,7 @@ Temperature variations were small, though minor fluctuations occurred during the
 
 <figure>
     <img src='./images/temperature.png' width="1000">
-    <figcaption>Figure 5: Temperature evolution</figcaption>
+    <figcaption>Figure 6: Temperature evolution</figcaption>
 </figure>
 
 
@@ -95,7 +108,7 @@ There were two main cycle durations (~48 and ~55 minutes). Batteries with shorte
 
 <figure>
     <img src='./images/cycle_time.png' width="1000">
-    <figcaption>Figure 6: Cycle time analysis</figcaption>
+    <figcaption>Figure 7: Cycle time analysis</figcaption>
 </figure>
 
 
@@ -104,7 +117,7 @@ Batteries with longer lifetimes exhibited a smaller initial surge in charge capa
 
 <figure>
     <img src='./images/charge_capacity.png' width="1000">
-    <figcaption>Figure 7: Charge capacity evolution</figcaption>
+    <figcaption>Figure 8: Charge capacity evolution</figcaption>
 </figure>
 
 
@@ -116,7 +129,7 @@ The most important features derived from this were:
 <figure>
     <img src='./images/PSD_CC.png' width="1000">
     <img src='./images/PSD_CV.png' width="1000">
-    <figcaption>Figure 8: PSD of the current (top) and voltage (bottom) waveform</figcaption>
+    <figcaption>Figure 9: PSD of the current (top) and voltage (bottom) waveform</figcaption>
 </figure>
 
 
@@ -134,7 +147,7 @@ We implemented the RFM model using the scikit-learn library and the GBM model us
 <figure>
     <img src='./images/GBM_holdout_scatterplot.png' width="500">
     <img src='./images/RFM_holdout_scatterplot.png' width="500">
-    <figcaption>Figure 9: Scatter plot of the predicted vs holdout data of the GBM (Top) and RFM (Bottom) model</figcaption>
+    <figcaption>Figure 10: Scatter plots of the predicted vs holdout data of the GBM (Top) and RFM (Bottom) model</figcaption>
 </figure>
 
 
@@ -145,7 +158,7 @@ The top 20 most predictive features are shown below.
 
 <figure>
     <img src='./images/shapley/shapley_Top20.png' width="500">
-    <figcaption>Figure 10: Shapley values for the top 20 features</figcaption>
+    <figcaption>Figure 11: Shapley values for the top 20 features</figcaption>
 </figure>
 
 Other SHAP plots can be found in this [folder](./images/shapley/).

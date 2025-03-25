@@ -35,7 +35,7 @@ class Tree_Model():
     trains a model, and and outputs the training scores.
     '''
 
-    def __init__(self, Model, params, cycle_max = 2500, random_state = 1,
+    def __init__(self, Model, params, cycle_max = 2500, random_state = 1, plot_training = True
                  ):
         '''
         input:
@@ -48,6 +48,7 @@ class Tree_Model():
         self.params = params
         self.model = Model(random_state = random_state)
         self.model.set_params(**self.params)
+        self.plot_training = plot_training
 
     def fit(self,X_train, y_train_actual):
         '''
@@ -86,11 +87,12 @@ class Tree_Model():
         error_calculation_output(y_train_actual, y_train_predict)
 
         #Plot training results
-        plot_scatter_plot(y_train_actual, 
-                          y_train_predict, 
-                          "Training data set", 
-                          cycle_max = self.cycle_max, 
-                          color = 'r')
+        if self.plot_training:
+            plot_scatter_plot(y_train_actual, 
+                              y_train_predict, 
+                              "Training data set", 
+                              cycle_max = self.cycle_max, 
+                              color = 'r')
 
         return self.model
         
