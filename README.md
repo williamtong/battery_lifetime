@@ -20,10 +20,10 @@ To build a predictive model to use the initial 100 cycles to estimate how many c
 #### Model Performance Summary
 | Model | Description | Holdout R² | Holdout MdAPE | Holdout RMSE |
 | --- | --- | --- | --- | --- |
-| GBM | 4 sets of cyclic features (No PSD features) | 0.478 | 16.6% | 234.1 |
-| GBM | 4 sets of cyclic features + PSD features | 0.723 | 12.24% | 170.6 |
-| RFM | 4 sets of cyclic features (No PSD features) | 0.598 | 8.86% | 205.5 |
-| RFM | 4 sets of cyclic features + PSD features | 0.653 | <u>**8.02%**</u> | 190.9 |
+| GBM | 4 sets of cyclic features (No PSD features) | 0.478 | 16.6% | 234 |
+| GBM | 4 sets of cyclic features + PSD features | 0.723 | 12.2% | 171|
+| RFM | 4 sets of cyclic features (No PSD features) | 0.598 | 8.86% | 206 |
+| RFM | 4 sets of cyclic features + PSD features | 0.653 | <u>**8.02%**</u> | 191 |
 
 Table 1: Summary of performances of the four models.  
 
