@@ -154,11 +154,15 @@ We implemented the RFM model using the scikit-learn library and the GBM model us
 ## Shapley Values: Feature Importance
 Shapley values assess the contribution of each feature to the model’s predictions. They provide local, consistent explanations of model behavior. We computed Shapley values using the Python SHAP library.
 
-The top 20 most predictive features are shown below.
+- The most important features are the high harmonic features of the charge waveforms.  The red features being on the right indicates the smaller the higher harmonics, the longer the lifetime.  This is consistent with the findings of the source of the data [link](https://data.matr.io/1/projects/5c48dd2bc625d700019f3204), which stated the optimal charging protocols tended to be "similar to single-step constant-current charging," which would natural lack the higher harmonic features of multi-step charging protocols.
+
+- The second most important class of features are Cycle Time, which is how long a charge cycle last.  The red features being on the right indicates shorter cycle time would lead to longer life.  This is counter-intuitive, as the standard understanding is slower charging would lead to longer lifetime.  The authors "speculate that minimizing parasitic reactions caused by heat generation may be the operative optimization strategy for these cells, as opposed to minimizing the propensity for lithium plating."  We also believe that it is possible the shorter cycles tend to have simpler waveforms, which leads to longer lifetime.
+
+The top 30 most predictive features are shown below.
 
 <figure>
-    <img src='./images/shapley/shapley_Top20.png' width="500">
-    <figcaption>Figure 11: Shapley values for the top 20 features</figcaption>
+    <img src='./images/shapley/shapley_Top30.png' width="500">
+    <figcaption>Figure 11: Shapley values for the top 30 features</figcaption>
 </figure>
 
 Other SHAP plots can be found in this [folder](./images/shapley/).
