@@ -1,4 +1,4 @@
-# Battery Lifetime Predictions from Initial Cycling Data
+# Battery Lifetime Prediction Model
 
 <figure>
     <img src='./images/battery-charged-and-uncharged.png' width="500">
@@ -11,7 +11,7 @@ I want to thank Dr. Lawrence Pan for helping me understand the intracacies of ba
 
 
 ## Goal
-To build a predictive model to use the initial 100 cycles to estimate how many cycles it would take for a battery’s state of health [SOH](https://en.wikipedia.org/wiki/State_of_health) to drop to 90%.
+This project aims to develop a predictive model for estimating battery lifetime using machine learning techniques.  It is employs only the initial 100 cycles to estimate how many cycles it would take for a battery’s state of health [SOH](https://en.wikipedia.org/wiki/State_of_health) to drop to 90%.
 
 ## Executive Summary
 1. We built a predictive Random Forest Model (RFM) to estimate the number of cycles required for a battery’s SOH to drop to 90%, based on the first 100 cycles of data.
@@ -47,7 +47,7 @@ Due to the small size of our dataset (132 batteries total), using deep learning 
 There many metrics to evaluate the efficacy of a model.  The one we choose is MdAPE (Median Average Percent) because
 it is more robust to outliers.
 1.  It uses <i>median</i> instead of mean.
-2.  Unlike RMSE, it does not involve squaring of errors, which tend to exaggerate outlier errors.
+2.  Unlike RMSE, it does not involve squaring of errors, which tends to exaggerate outlier errors.
 
 We see the RFM model performing better than the GBM model, which typically performs better.  This is likely because of the small size of the data set.  Below show the actuall vs. the predicted <i>Training</i> data set for the two model.  One can see a clear sign of <i>overfitting</i> in the GBM model, but not in the RFM model.
 <figure>
