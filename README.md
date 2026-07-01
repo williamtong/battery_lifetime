@@ -7,7 +7,7 @@
 
 
 ## Acknowledgments
-I want to thank Dr. Lawrence Pan for helping me understand the intracacies of battery chemistry, and acknowledge the authors of the two <i>Nature</i> papers (See <i>Data</i> section below) for performing the experiments and sharing their data with the world.
+I want to thank Dr. Lawrence Pan for helping me understand the intricacies of battery chemistry, and acknowledge the authors of the two <i>Nature</i> papers (See <i>Data</i> section below) for performing the experiments and sharing their data with the world.
 
 
 ## Goal
@@ -27,6 +27,47 @@ This project aims to develop a predictive model for estimating battery lifetime 
 
 Table 1: Summary of performances of the four models.  
 
+
+## How to Run
+
+### Prerequisites
+- Python 3.12 or higher
+- <a href="https://python-poetry.org/docs/#installation">Poetry</a> — if not installed: <code>curl -sSL https://install.python-poetry.org | python3 -</code>
+- The battery cycling dataset from the Toyota Research Institute / Severson et al.:
+  <a href="https://data.matr.io/1/projects/5c48dd2bc625d700019f3204">https://data.matr.io/1/projects/5c48dd2bc625d700019f3204</a>
+  Download the files and place them in <code>data/raw_data/</code>
+
+### Setup
+
+<pre><code>cd battery-lifetime
+poetry install --no-root
+</code></pre>
+
+The <code>--no-root</code> flag tells Poetry to install only the dependencies listed in <code>pyproject.toml</code>, without trying to install this project itself as a Python package.
+
+### Launch Jupyter
+
+On Mac (recommended — prevents the kernel from dying if the screen locks during long training runs):
+<pre><code>caffeinate -i poetry run jupyter lab
+</code></pre>
+
+On other platforms:
+<pre><code>poetry run jupyter lab
+</code></pre>
+
+### Run the notebooks in this order
+
+<ol>
+<li><code>notebooks/battery_dataprep.ipynb</code> — extract per-cycle features from raw data and apply spike-removal filter</li>
+<li><code>notebooks/battery_dataprep-FFT-5shift.ipynb</code> — compute PSD features from charging waveforms</li>
+<li><code>notebooks/battery_degradation_RFM_noFFT.ipynb</code> — baseline RFM model (no PSD features)</li>
+<li><code>notebooks/battery_degradation_RFM_FFT.ipynb</code> — best model: RFM with PSD features</li>
+<li><code>notebooks/battery_degradation_ML_GBM_noFFT.ipynb</code> — baseline GBM model (no PSD features)</li>
+<li><code>notebooks/battery_degradation_ML_GBM_FFT.ipynb</code> — GBM model with PSD features</li>
+<li><code>notebooks/rfm_shap_2000.ipynb</code> — SHAP analysis <em>(requires step 4 to have been run first)</em></li>
+</ol>
+
+<b>Note:</b> trained models are not saved in the repo. Steps 1 and 2 must be completed before running any modeling notebooks, and step 4 must be completed before running the SHAP notebook.
 
 # Introduction
 
@@ -49,7 +90,7 @@ it is more robust to outliers.
 1.  It uses <i>median</i> instead of mean.
 2.  Unlike RMSE, it does not involve squaring of errors, which tends to exaggerate outlier errors.
 
-We see the RFM model performing better than the GBM model, which typically performs better.  This is likely because of the small size of the data set.  Below show the actuall vs. the predicted <i>Training</i> data set for the two model.  One can see a clear sign of <i>overfitting</i> in the GBM model, but not in the RFM model.
+We see the RFM model performing better than the GBM model, which typically performs better.  This is likely because of the small size of the data set.  Below show the actual vs. the predicted <i>Training</i> data set for the two model.  One can see a clear sign of <i>overfitting</i> in the GBM model, but not in the RFM model.
 <figure>
     <img src='./images/GBM_Train.png' width="500">
     <img src='./images/RFM_Train.png' width="500">
@@ -77,7 +118,7 @@ Typical charging/discharging protocols are shown below. Some protocols exhibit a
 </figure>
 
 
-Each battery underwent approximately 90–1500 cycles of testing, with experiments often terminating soon after SOH dropped below 90%. Measurement intervals varied, as shown in the histogram below.  Despite the large variations in the measurement time intervals, the PSDs still emerge to be the most pwoerful features in the model.  This is a testament to the importance of the charging protocol to the lifetime of the batteries.
+Each battery underwent approximately 90–1500 cycles of testing, with experiments often terminating soon after SOH dropped below 90%. Measurement intervals varied, as shown in the histogram below.  Despite the large variations in the measurement time intervals, the PSDs still emerge to be the most powerful features in the model.  This is a testament to the importance of the charging protocol to the lifetime of the batteries.
 
 <figure>
     <img src='./images/time_intervals.png' width="1000">
@@ -134,7 +175,7 @@ The most important features derived from this were:
 
 
 ### Metrics
-We listed three metrics in Table 1 for each model.  We believe MdAPE is the most appropriate metric because it targets a criterion that is more realistic to one in our likely use case, which is tha actually lifetime of the battery (R² does not).  It is also less sensitive to outliers than RMSE.
+We listed three metrics in Table 1 for each model.  We believe MdAPE is the most appropriate metric because it targets a criterion that is more realistic to one in our likely use case, which is the actual lifetime of the battery (R² does not).  It is also less sensitive to outliers than RMSE.
 
 
 ## Modeling

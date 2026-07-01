@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "wine-libraries"
+name = "battery-lifetime"
 version = "0.1.0"
-description = ""
+description = "Battery lifetime prediction using Random Forest and Gradient Boosting models with PSD features"
 authors = ["will_tong2001@yahoo.com <will_tong2001@yahoo.com>"]
 readme = "README.md"
 
@@ -13,12 +13,10 @@ xgboost = "^2.1.0"
 pandas = "^2.2.2"
 matplotlib = "^3.9.1"
 shap = "^0.46.0"
-nltk = "^3.8.1"
-sentence-transformers = "^3.1.1"
-tensorflow = "^2.18.0"
-keras = "^3.8.0"
+scipy = "^1.14.0"
 seaborn = "^0.13.2"
-
+keras = "^3.8.0"
+tensorflow = "^2.18.0"
 
 [build-system]
 requires = ["poetry-core"]
